@@ -1,0 +1,2 @@
+class NoAccountsForClient(Exception):
+    pass
