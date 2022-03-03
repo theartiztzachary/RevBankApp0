@@ -14,10 +14,13 @@ class ClientServiceImplementation(ClientServiceInterface):
             return new_client_id
         raise InvalidDataType("That is not a valid input type. Please double check your input.")
 
-    def get_all_accounts_by_id(self, client: str) -> str:
-        pass
+    def get_all_accounts_by_id(self, client_id: str) -> str:
+        if type(client_id) == str:
+            viewed_accounts = client_data_layer.get_all_accounts_by_id(client_id)
+            return viewed_accounts
+        raise InvalidDataType("That is not a valid input type. Please double check your input.")
 
-    def transfer_between_accounts(self, client_from_id: str, account_from_id: str, account_to_id: str, transfer_amount: float) -> bool:
+    def transfer_between_accounts(self, client_id: str, account_from_id: str, account_to_id: str, transfer_amount: float) -> bool:
         pass
 
     def delete_client(self, client_id: str) -> bool:

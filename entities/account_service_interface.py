@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 class AccountServiceInterface(ABC):
 
     @abstractmethod
-    def create_new_account(self, client_id: str) -> str:
+    def create_new_account(self, client_id: str, starting_amount: float) -> str:
         pass
 
     @abstractmethod
