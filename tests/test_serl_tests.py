@@ -1,10 +1,13 @@
 from data_access_layer.client_implementation import ClientDataImplementation
 from service_layer.client_service_implementation import ClientServiceImplementation
+from data_access_layer.account_implementation import AccountDataImplementation
 from service_layer.account_service_implementation import AccountServiceImplementation
 
 from custom_exceptions.invalid_data_type import InvalidDataType
 
-client_serl_imp = ClientServiceImplementation()
+client_dal_imp = ClientDataImplementation()
+client_serl_imp = ClientServiceImplementation(client_dal_imp)
+account_dal_imp = AccountDataImplementation
 account_serl_imp = AccountServiceImplementation()
 
 ##The tests here check if the user input is of a valid type to use in queries - the actual check of the (valid) inputted data
