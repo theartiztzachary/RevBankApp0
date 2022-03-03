@@ -28,7 +28,13 @@ class AccountServiceImplementation(AccountServiceInterface):
         raise InvalidDataType("That is not a valid input type. Please double check your input.")
 
     def deposit_into_account(self, client_id: str, account_id: str, deposit_amount: float) -> float:
-        pass
+        if type(client_id) == str and type(account_id) == str and (type(deposit_amount) == float or type(deposit_amount) == int):
+            new_total = self.account_dal.deposit_into_account(client_id, account_id, deposit_amount)
+            return new_total
+        raise InvalidDataType("That is not a valid input type. Please double check your input.")
 
     def delete_account(self, client_id: str, account_id: str) -> bool:
-        pass
+        if type(client_id) == str and type(account_id) == str:
+            delete_result = self.account_dal.delete_account(client_id, account_id)
+            return delete_result
+        raise InvalidDataType("That is not a valid input type. Please double check your input.")

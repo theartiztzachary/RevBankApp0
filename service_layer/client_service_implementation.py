@@ -22,7 +22,14 @@ class ClientServiceImplementation(ClientServiceInterface):
         raise InvalidDataType("That is not a valid input type. Please double check your input.")
 
     def transfer_between_accounts(self, client_id: str, account_from_id: str, account_to_id: str, transfer_amount: float) -> bool:
-        pass
+        if (type(client_id) == str) and (type(account_from_id) == str) and (type(account_to_id) == str) and (type(transfer_amount) == float or type(transfer_amount) == int):
+            print(type(transfer_amount == float))
+            transfer_result = self.client_dal.transfer_between_accounts(client_id, account_from_id, account_to_id, transfer_amount)
+            return transfer_result
+        raise InvalidDataType("That is not a valid input type. Please double check your input.")
 
     def delete_client(self, client_id: str) -> bool:
-        pass
+        if type(client_id) == str:
+            delete_result = self.client_dal.delete_client(client_id)
+            return delete_result
+        raise InvalidDataType("That is not a valid input type. Please double check your input.")

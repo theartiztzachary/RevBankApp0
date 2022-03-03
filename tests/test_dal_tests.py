@@ -173,6 +173,9 @@ def test_transfer_to_nonexistant_account():
     except AccountIDNotFound as exception:
         assert str(exception) == "There are no accounts associated with that ID."
 
+#What happens if a valid client attempts to transfer between accounts that are not theirs?
+#Curently returns an AccountIDNotFound error.
+
 #Close bank account.
 def test_close_individual_account():
     account_closed = account_test_data_imp.delete_account(client_test_data_imp.zandel_client_id, client_test_data_imp.zandel_account_id)
