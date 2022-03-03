@@ -198,6 +198,8 @@ def test_close_nonexistant_client():
     except ClientIDNotFound as exception:
         assert str(exception) == "Client ID does not exist."
 
+#What happens if someone tries to close an account with funds still in it?
+
 #End client relationship.
 def test_remove_client():
     goodbye_client = client_test_data_imp.delete_client(client_test_data_imp.zandel_client_id)
@@ -211,3 +213,5 @@ def test_remove_nonexistant_client():
         assert False
     except ClientIDNotFound as exception:
         assert str(exception) == "Client ID does not exist."
+
+#What happens if someone tries to end a client relationship with accounts still open?
