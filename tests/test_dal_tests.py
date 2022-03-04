@@ -7,6 +7,9 @@ from custom_exceptions.client_id_not_found import ClientIDNotFound
 from custom_exceptions.account_id_not_found import AccountIDNotFound
 from custom_exceptions.inadequate_funds import InadequateFunds
 from custom_exceptions.no_accounts import NoAccountsForClient
+from custom_exceptions.input_too_long import InputTooLong
+from custom_exceptions.funds_still_exist import FundsStillExist
+from custom_exceptions.accounts_still_exist import AccountsStillExist
 
 client_test_data_imp = ClientDataImplementation()
 account_test_data_imp = AccountDataImplementation()
@@ -18,16 +21,31 @@ def test_create_a_new_client():
     estaire_client = ClientData("Estaire", "VonTelan")
     added_client = client_test_data_imp.create_new_client(estaire_client)
 
-    assert added_client == "ev5"
+    assert added_client == "ev7"
     assert ClientDataImplementation.client_database[added_client] == estaire_client
+
+def test_create_client_too_long():
+    try:
+        bad_client = ClientData("Thisfirstnameiswaytoolonglol", "Okay")
+        bad_addition = client_test_data_imp.create_new_client(bad_client)
+        assert False
+    except InputTooLong as exception:
+        assert str(exception) == "Inputted first name is too long. First names must be less than 20 characters."
+
+    try:
+        bad_client = ClientData("Okay", "Thislastnameiswaytoolonglol")
+        bad_addition = client_test_data_imp.create_new_client(bad_client)
+        assert False
+    except InputTooLong as exception:
+        assert str(exception) == "Inputted last name is too long. Last names must be less than 20 characters."
 
 #Create a new account with a client.
 def test_create_a_new_account():
     mekio_account = AccountData(client_test_data_imp.mekio_client_id, 200)
     test_id = account_test_data_imp.create_new_account(mekio_account)
 
-    assert test_id == "mn14"
-    assert client_test_data_imp.client_database["mn1"].client_accounts["mn14"] == mekio_account
+    assert test_id == "mn15"
+    assert client_test_data_imp.client_database["mn1"].client_accounts["mn15"] == mekio_account
 
 #Attempt to create a new account with a client that does not exist.
 def test_create_new_account_with_nonexistant_client():
@@ -174,16 +192,25 @@ def test_transfer_to_nonexistant_account():
         assert str(exception) == "There are no accounts associated with that ID."
 
 #What happens if a valid client attempts to transfer between accounts that are not theirs?
-#Curently returns an AccountIDNotFound error.
+#Curently returns an AccountIDNotFound error. That stops the transaction, so it is probably fine as it is.
+#Do we want to add functionality for transferring /into/ an account that isn't yours? It's not in the parameters but...
 
-#Close bank account.
+#Close an account.
 def test_close_individual_account():
-    account_closed = account_test_data_imp.delete_account(client_test_data_imp.zandel_client_id, client_test_data_imp.zandel_account_id)
+    account_closed = account_test_data_imp.delete_account(client_test_data_imp.hamel_client_id, client_test_data_imp.hamel_account_id)
     assert account_closed == True
     try:
-        no_account = account_test_data_imp.view_account_balance(client_test_data_imp.zandel_client_id, client_test_data_imp.zandel_account_id)
+        no_account = account_test_data_imp.view_account_balance(client_test_data_imp.hamel_client_id, client_test_data_imp.hamel_account_id)
     except AccountIDNotFound as exception:
         assert str(exception) == "There are no accounts associated with that ID."
+
+#Attempt to close an account that has funds in it.
+def test_close_individual_account_with_funds():
+    try:
+        cannot_close = account_test_data_imp.delete_account(client_test_data_imp.zandel_client_id, client_test_data_imp.zandel_account_id)
+        assert False
+    except FundsStillExist as exception:
+        assert str(exception) == "There are still funds in that account. Please withdraw or transfer the balance before attempting to close the account."
 
 #Attempt to close a bank account that does not exist.
 def test_close_nonexistant_account():
@@ -201,13 +228,18 @@ def test_close_nonexistant_client():
     except ClientIDNotFound as exception:
         assert str(exception) == "Client ID does not exist."
 
-#What happens if someone tries to close an account with funds still in it?
-
 #End client relationship.
 def test_remove_client():
-    goodbye_client = client_test_data_imp.delete_client(client_test_data_imp.zandel_client_id)
-
+    goodbye_client = client_test_data_imp.delete_client(client_test_data_imp.isaac_client_id)
     assert goodbye_client == True
+
+#End client relationship while client still has accounts.
+def test_remove_client_with_accounts():
+    try:
+        still_accounted = client_test_data_imp.delete_client(client_test_data_imp.zandel_client_id)
+        assert False
+    except AccountsStillExist as exception:
+        assert str(exception) == "There are still accounts associated with that client. Please close all accounts before removing the client."
 
 #Attempt to end a client relationship that does not exist.
 def test_remove_nonexistant_client():

@@ -1,0 +1,2 @@
+class InputTooLong(Exception):
+    pass

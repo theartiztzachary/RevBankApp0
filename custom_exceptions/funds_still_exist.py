@@ -1,0 +1,2 @@
+class FundsStillExist(Exception):
+    pass

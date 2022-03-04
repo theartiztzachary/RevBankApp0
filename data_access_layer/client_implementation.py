@@ -6,11 +6,14 @@ from custom_exceptions.client_id_not_found import ClientIDNotFound
 from custom_exceptions.no_accounts import NoAccountsForClient
 from custom_exceptions.inadequate_funds import InadequateFunds
 from custom_exceptions.account_id_not_found import AccountIDNotFound
+from custom_exceptions.input_too_long import InputTooLong
+from custom_exceptions.accounts_still_exist import AccountsStillExist
 
 class ClientDataImplementation(ClientDataInterface):
     client_database = {}
 
     def __init__(self):
+        ##-Begin hard-coded test data.-##
         self.mekio_client = ClientData("Mekio", "Nefta")
         self.mekio_client_id = self.mekio_client.client_id
 
@@ -32,15 +35,30 @@ class ClientDataImplementation(ClientDataInterface):
         self.zandel_account_id = self.zandel_account.account_id
         self.zandel_client.client_accounts[self.zandel_account_id] = self.zandel_account
 
+        self.isaac_client = ClientData("Isaac", "Daurcour")
+        self.isaac_client_id = self.isaac_client.client_id
+
+        self.hamel_client = ClientData("Hamel", "Bergstrom")
+        self.hamel_client_id = self.hamel_client.client_id
+        self.hamel_account = AccountData(self.hamel_client_id, 0)
+        self.hamel_account_id = self.hamel_account.account_id
+        self.hamel_client.client_accounts[self.hamel_account_id] = self.hamel_account
+
         self.client_database[self.mekio_client_id] = self.mekio_client
         self.client_database[self.salvador_client_id] = self.salvador_client
         self.client_database[self.luken_client_id] = self.luken_client
         self.client_database[self.zandel_client_id] = self.zandel_client
+        self.client_database[self.hamel_client_id] = self.hamel_client
+        self.client_database[self.isaac_client_id] = self.isaac_client
+        ##-End hard-coded test data.-##
 
     def create_new_client(self, client: ClientData) -> str:
-        print(client.client_id)
-        ClientDataImplementation.client_database[client.client_id] = client
-        return client.client_id
+        if len(client.first_name) <= 20:
+            if len(client.last_name) <= 20:
+                ClientDataImplementation.client_database[client.client_id] = client
+                return client.client_id
+            raise InputTooLong("Inputted last name is too long. Last names must be less than 20 characters.")
+        raise InputTooLong("Inputted first name is too long. First names must be less than 20 characters.")
 
     def get_all_accounts_by_id(self, client_id: str) -> str:
         return_string = ""
@@ -80,6 +98,8 @@ class ClientDataImplementation(ClientDataInterface):
     def delete_client(self, client_id: str) -> bool:
         for client in ClientDataImplementation.client_database.keys():
             if client == client_id:
-                del ClientDataImplementation.client_database[client]
-                return True
+                if len(ClientDataImplementation.client_database[client].client_accounts) == 0:
+                    del ClientDataImplementation.client_database[client]
+                    return True
+                raise AccountsStillExist("There are still accounts associated with that client. Please close all accounts before removing the client.")
         raise ClientIDNotFound("Client ID does not exist.")

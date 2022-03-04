@@ -17,13 +17,14 @@ account_serl_imp = AccountServiceImplementation(account_dal_imp)
 ##At some point need to add integer check into service layer. (what happens if you try int("not a number")?)
 
 ##Bool inputs into float fields are returning without error because of the True/False -> 1/0 relationship. Look into a potential fix, if needed.
+#in python, bool is considered a subclass of int
 
 ##These tests work as is, but some might need to be reconfigured/might be able to be removed based on how the API layer is created.
 
 #Validate creating a new client with good data.
 def test_service_create_client():
     new_client = client_serl_imp.create_new_client("Flash", "Wilmer")
-    assert new_client == "fw5"
+    assert new_client == "fw7"
 
 #Validtate creating a new client with bad data.
 def test_service_create_client_incorrect_inputs():
@@ -285,6 +286,9 @@ def test_service_deposit_into_account_incorrect_inputs():
 def test_service_transfer_between_accounts():
     transfer_success = client_serl_imp.transfer_between_accounts("sv2", "sv21", "sv22", 5)
     assert transfer_success == True
+
+    transfer_another = client_serl_imp.transfer_between_accounts("sv2", "sv21", "sv22", "5")
+    assert transfer_another == True
 
 #Validate transferring between accounts with bad data.
 def test_service_transfer_between_accounts_incorrect_inputs():

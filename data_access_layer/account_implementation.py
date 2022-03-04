@@ -5,6 +5,7 @@ from data_access_layer.client_implementation import ClientDataImplementation
 from custom_exceptions.client_id_not_found import ClientIDNotFound
 from custom_exceptions.account_id_not_found import AccountIDNotFound
 from custom_exceptions.inadequate_funds import InadequateFunds
+from custom_exceptions.funds_still_exist import FundsStillExist
 
 class AccountDataImplementation(AccountDataInterface):
 
@@ -49,11 +50,12 @@ class AccountDataImplementation(AccountDataInterface):
 
     def delete_account(self, client_id: str, account_id: str) -> bool:
         for client in ClientDataImplementation.client_database.keys():
-            print(client)
             if client == client_id:
                 for account in ClientDataImplementation.client_database[client].client_accounts.keys():
                     if account == account_id:
-                        del ClientDataImplementation.client_database[client].client_accounts[account]
-                        return True
+                        if ClientDataImplementation.client_database[client].client_accounts[account].current_balance == 0:
+                            del ClientDataImplementation.client_database[client].client_accounts[account]
+                            return True
+                        raise FundsStillExist("There are still funds in that account. Please withdraw or transfer the balance before attempting to close the account.")
                 raise AccountIDNotFound("There are no accounts associated with that ID.")
         raise ClientIDNotFound("Client ID does not exist.")

@@ -1,0 +1,2 @@
+class AccountsStillExist(Exception):
+    pass
