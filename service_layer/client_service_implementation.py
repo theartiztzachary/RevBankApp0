@@ -1,6 +1,6 @@
 from data_access_layer.client_implementation import ClientDataImplementation
 from entities.client_service_interface import ClientServiceInterface
-from entities.client_data_object import ClientData
+from entities.client_data_object import ClientDataInit
 
 from custom_exceptions.invalid_data_type import InvalidDataType
 
@@ -10,7 +10,7 @@ class ClientServiceImplementation(ClientServiceInterface):
 
     def create_new_client(self, first_name: str, last_name: str) -> str:
         if type(first_name) == str and type(last_name) == str:
-            new_client_data = ClientData(first_name, last_name)
+            new_client_data = ClientDataInit(first_name, last_name)
             new_client_id = self.client_dal.create_new_client(new_client_data)
             return new_client_id
         raise InvalidDataType("That is not a valid input type. Please double check your input.")

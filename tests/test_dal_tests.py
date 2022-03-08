@@ -1,7 +1,7 @@
 from data_access_layer.client_implementation import ClientDataImplementation
-from entities.client_data_object import ClientData
+from entities.client_data_object import ClientDataInit
 from data_access_layer.account_implementation import AccountDataImplementation
-from entities.account_data_object import AccountData
+from entities.account_data_object import AccountDataInit
 
 from custom_exceptions.client_id_not_found import ClientIDNotFound
 from custom_exceptions.account_id_not_found import AccountIDNotFound
@@ -18,7 +18,7 @@ account_test_data_imp = AccountDataImplementation()
 
 #Create a new client.
 def test_create_a_new_client():
-    estaire_client = ClientData("Estaire", "VonTelan")
+    estaire_client = ClientDataInit("Estaire", "VonTelan")
     added_client = client_test_data_imp.create_new_client(estaire_client)
 
     assert added_client == "ev7"
@@ -26,14 +26,14 @@ def test_create_a_new_client():
 
 def test_create_client_too_long():
     try:
-        bad_client = ClientData("Thisfirstnameiswaytoolonglol", "Okay")
+        bad_client = ClientDataInit("Thisfirstnameiswaytoolonglol", "Okay")
         bad_addition = client_test_data_imp.create_new_client(bad_client)
         assert False
     except InputTooLong as exception:
         assert str(exception) == "Inputted first name is too long. First names must be less than 20 characters."
 
     try:
-        bad_client = ClientData("Okay", "Thislastnameiswaytoolonglol")
+        bad_client = ClientDataInit("Okay", "Thislastnameiswaytoolonglol")
         bad_addition = client_test_data_imp.create_new_client(bad_client)
         assert False
     except InputTooLong as exception:
@@ -41,7 +41,7 @@ def test_create_client_too_long():
 
 #Create a new account with a client.
 def test_create_a_new_account():
-    mekio_account = AccountData(client_test_data_imp.mekio_client_id, 200)
+    mekio_account = AccountDataInit(client_test_data_imp.mekio_client_id, 200)
     test_id = account_test_data_imp.create_new_account(mekio_account)
 
     assert test_id == "mn15"
@@ -50,7 +50,7 @@ def test_create_a_new_account():
 #Attempt to create a new account with a client that does not exist.
 def test_create_new_account_with_nonexistant_client():
     try:
-        bad_account = AccountData("nonexistant", 10)
+        bad_account = AccountDataInit("nonexistant", 10)
         test_id = account_test_data_imp.create_new_account(bad_account)
         assert False
     except ClientIDNotFound as exception:

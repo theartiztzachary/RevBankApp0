@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
-from entities.account_data_object import AccountData
+from entities.account_data_object import AccountDataInit
 
 class AccountDataInterface(ABC):
 
     @abstractmethod
-    def create_new_account(self, account: AccountData) -> str:
+    def create_new_account(self, account: AccountDataInit) -> str:
         pass
 
     @abstractmethod

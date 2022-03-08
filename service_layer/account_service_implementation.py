@@ -1,6 +1,6 @@
 from data_access_layer.account_implementation import AccountDataImplementation
 from entities.account_service_interface import AccountServiceInterface
-from entities.account_data_object import AccountData
+from entities.account_data_object import AccountDataInit
 
 from custom_exceptions.invalid_data_type import InvalidDataType
 
@@ -13,7 +13,7 @@ class AccountServiceImplementation(AccountServiceInterface):
             try:
                 starting_float = float(starting_amount)
                 if type(client_id) == str:
-                    new_account_data = AccountData(client_id, starting_float)
+                    new_account_data = AccountDataInit(client_id, starting_float)
                     new_account_id = self.account_dal.create_new_account(new_account_data)
                     return new_account_id
                 raise InvalidDataType("That is not a valid input type. Please double check your input.")

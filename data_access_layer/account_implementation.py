@@ -1,5 +1,5 @@
 from entities.account_data_interface import AccountDataInterface
-from entities.account_data_object import AccountData
+from entities.account_data_object import AccountDataInit
 from data_access_layer.client_implementation import ClientDataImplementation
 
 from custom_exceptions.client_id_not_found import ClientIDNotFound
@@ -9,7 +9,7 @@ from custom_exceptions.funds_still_exist import FundsStillExist
 
 class AccountDataImplementation(AccountDataInterface):
 
-    def create_new_account(self, account: AccountData) -> str:
+    def create_new_account(self, account: AccountDataInit) -> str:
         for client_id in ClientDataImplementation.client_database.keys():
             if client_id == account.holding_client:
                 ClientDataImplementation.client_database[client_id].client_accounts[account.account_id] = account

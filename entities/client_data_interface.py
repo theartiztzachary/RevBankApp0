@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
-from entities.client_data_object import ClientData
+from entities.client_data_object import ClientDataInit
 
 
 class ClientDataInterface(ABC):
 
     @abstractmethod
-    def create_new_client(self, client: ClientData) -> str:
+    def create_new_client(self, client: ClientDataInit) -> str:
         pass
 
     @abstractmethod
