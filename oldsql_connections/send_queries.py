@@ -1,6 +1,8 @@
 from manage_connections import connection
-from entities.client_data_object import ClientDataInit, ClientData
-from entities.account_data_object import AccountDataInit, AccountData
+from oldentities.client_data_object import ClientDataInit, ClientData
+from oldentities.account_data_object import AccountDataInit, AccountData
+
+#these should go in a data access layer file
 
 def create_client_entry(client: ClientDataInit) -> ClientDataInit:
     sql_query = "insert into clients values(s%, s%, s%, default) returning database_id"

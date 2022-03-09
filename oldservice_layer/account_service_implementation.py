@@ -1,8 +1,8 @@
-from data_access_layer.account_implementation import AccountDataImplementation
-from entities.account_service_interface import AccountServiceInterface
-from entities.account_data_object import AccountDataInit
+from olddata_access_layer.account_implementation import AccountDataImplementation
+from oldentities.account_service_interface import AccountServiceInterface
+from oldentities.account_data_object import AccountDataInit
 
-from custom_exceptions.invalid_data_type import InvalidDataType
+from oldcustom_exceptions.invalid_data_type import InvalidDataType
 
 class AccountServiceImplementation(AccountServiceInterface):
     def __init__(self, account_dal: AccountDataImplementation):

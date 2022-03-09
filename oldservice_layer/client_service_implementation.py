@@ -1,8 +1,8 @@
-from data_access_layer.client_implementation import ClientDataImplementation
-from entities.client_service_interface import ClientServiceInterface
-from entities.client_data_object import ClientDataInit
+from olddata_access_layer.client_implementation import ClientDataImplementation
+from oldentities.client_service_interface import ClientServiceInterface
+from oldentities.client_data_object import ClientDataInit
 
-from custom_exceptions.invalid_data_type import InvalidDataType
+from oldcustom_exceptions.invalid_data_type import InvalidDataType
 
 class ClientServiceImplementation(ClientServiceInterface):
     def __init__(self, client_dal: ClientDataImplementation):

@@ -1,17 +1,19 @@
-from data_access_layer.client_implementation import ClientDataImplementation
-from service_layer.client_service_implementation import ClientServiceImplementation
-from data_access_layer.account_implementation import AccountDataImplementation
-from service_layer.account_service_implementation import AccountServiceImplementation
+from unittest.mock import MagicMock
 
-from custom_exceptions.invalid_data_type import InvalidDataType
+from olddata_access_layer.client_implementation import ClientDataImplementation
+from oldservice_layer.client_service_implementation import ClientServiceImplementation
+from olddata_access_layer.account_implementation import AccountDataImplementation
+from oldservice_layer.account_service_implementation import AccountServiceImplementation
+
+from oldcustom_exceptions.invalid_data_type import InvalidDataType
 
 client_dal_imp = ClientDataImplementation()
 client_serl_imp = ClientServiceImplementation(client_dal_imp)
 account_dal_imp = AccountDataImplementation()
 account_serl_imp = AccountServiceImplementation(account_dal_imp)
 
-##The tests here check if the user input is of a valid type to use in queries - the actual check of the (valid) inputted data
-#against the database is checked by the data access layer. These tests also prove that basic data passing is working by using
+##The oldtests here check if the user input is of a valid type to use in queries - the actual check of the (valid) inputted data
+#against the database is checked by the data access layer. These oldtests also prove that basic data passing is working by using
 #data that should exist due to it currently being hard-coded into the data access client implementation.
 
 ##At some point need to add integer check into service layer. (what happens if you try int("not a number")?)
@@ -19,7 +21,7 @@ account_serl_imp = AccountServiceImplementation(account_dal_imp)
 ##Bool inputs into float fields are returning without error because of the True/False -> 1/0 relationship. Look into a potential fix, if needed.
 #in python, bool is considered a subclass of int
 
-##These tests work as is, but some might need to be reconfigured/might be able to be removed based on how the API layer is created.
+##These oldtests work as is, but some might need to be reconfigured/might be able to be removed based on how the API layer is created.
 
 #Validate creating a new client with good data.
 def test_service_create_client():

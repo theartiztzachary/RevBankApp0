@@ -1,13 +1,13 @@
-from entities.client_data_interface import ClientDataInterface
-from entities.client_data_object import ClientDataInit
-from entities.account_data_object import AccountDataInit
+from oldentities.client_data_interface import ClientDataInterface
+from oldentities.client_data_object import ClientDataInit
+from oldentities.account_data_object import AccountDataInit
 
-from custom_exceptions.client_id_not_found import ClientIDNotFound
-from custom_exceptions.no_accounts import NoAccountsForClient
-from custom_exceptions.inadequate_funds import InadequateFunds
-from custom_exceptions.account_id_not_found import AccountIDNotFound
-from custom_exceptions.input_too_long import InputTooLong
-from custom_exceptions.accounts_still_exist import AccountsStillExist
+from oldcustom_exceptions.client_id_not_found import ClientIDNotFound
+from oldcustom_exceptions.no_accounts import NoAccountsForClient
+from oldcustom_exceptions.inadequate_funds import InadequateFunds
+from oldcustom_exceptions.account_id_not_found import AccountIDNotFound
+from oldcustom_exceptions.input_too_long import InputTooLong
+from oldcustom_exceptions.accounts_still_exist import AccountsStillExist
 
 class ClientDataImplementation(ClientDataInterface):
     client_database = {}

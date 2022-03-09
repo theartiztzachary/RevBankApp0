@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from entities.account_data_object import AccountDataInit
+from oldentities.account_data_object import AccountDataInit
 
 class AccountDataInterface(ABC):
 

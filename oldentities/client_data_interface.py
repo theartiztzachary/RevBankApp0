@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from entities.client_data_object import ClientDataInit
+from oldentities.client_data_object import ClientDataInit
 
 
 class ClientDataInterface(ABC):
