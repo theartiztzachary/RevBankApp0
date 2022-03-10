@@ -60,7 +60,7 @@ def test_service_create_client_incorrect_inputs():
 #Validate creating a new account with good data.
 def test_service_create_account():
     new_account = account_serl_imp.create_new_account("lv3", 350)
-    assert new_account == "lv34"
+    assert new_account == "lv35"
 
     account_balance = account_serl_imp.view_account_balance("lv3", new_account)
     assert account_balance == 350
@@ -352,7 +352,7 @@ def test_service_transfer_between_accounts_incorrect_inputs():
         assert str(exception) == "That is not a valid input type. Please double check your input."
 
 def test_service_delete_account():
-    delete_successful = account_serl_imp.delete_account("zh4", "zh43")
+    delete_successful = account_serl_imp.delete_account("hb6", "hb64")
     assert delete_successful == True
 
 def test_service_delete_account_incorrect_inputs():
@@ -393,7 +393,7 @@ def test_service_delete_account_incorrect_inputs():
         assert str(exception) == "That is not a valid input type. Please double check your input."
 
 def test_service_delete_client():
-    delete_success = client_serl_imp.delete_client("zh4")
+    delete_success = client_serl_imp.delete_client("id5")
     assert delete_success == True
 
 def test_service_delete_client_incorrect_input():
