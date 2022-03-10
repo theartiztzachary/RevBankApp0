@@ -14,13 +14,6 @@ account_serl_imp = AccountServiceImplementation(account_dal_imp)
 #against the database is checked by the data access layer. These tests also prove that basic data passing is working by using
 #data that should exist due to it currently being hard-coded into the data access client implementation.
 
-##At some point need to add integer check into service layer. (what happens if you try int("not a number")?)
-
-##Bool inputs into float fields are returning without error because of the True/False -> 1/0 relationship. Look into a potential fix, if needed.
-#in python, bool is considered a subclass of int
-
-##These tests work as is, but some might need to be reconfigured/might be able to be removed based on how the API layer is created.
-
 #Validate creating a new client with good data.
 def test_service_create_client():
     new_client = client_serl_imp.create_new_client("Flash", "Wilmer")
