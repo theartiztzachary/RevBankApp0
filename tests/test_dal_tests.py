@@ -32,7 +32,7 @@ def test_create_new_account_with_nonexistant_client():
 
 #Retrive specific account information.
 def test_view_account_information():
-    viewing_account = account_test_data_imp.view_account_information("zh4", "zh3")
+    viewing_account = account_test_data_imp.view_account_information("zh4", "zh43")
     assert viewing_account.account_balance == 50
 
 #Attempt to view specific account information of an account that does not exist.

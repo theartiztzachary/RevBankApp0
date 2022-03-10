@@ -1,2 +1,0 @@
-class InputTooLong(Exception):
-    pass

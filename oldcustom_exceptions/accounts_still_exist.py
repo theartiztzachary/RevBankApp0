@@ -1,2 +1,0 @@
-class AccountsStillExist(Exception):
-    pass

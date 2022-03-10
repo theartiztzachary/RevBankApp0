@@ -1,2 +1,0 @@
-class ClientIDNotFound(Exception):
-    pass

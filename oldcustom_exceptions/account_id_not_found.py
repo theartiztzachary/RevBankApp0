@@ -1,2 +1,0 @@
-class AccountIDNotFound(Exception):
-    pass
