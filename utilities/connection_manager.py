@@ -15,4 +15,3 @@ def create_connection():
         print(exception)
 
 connection = create_connection()
-print(connection)
