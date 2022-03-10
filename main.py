@@ -10,6 +10,7 @@ from custom_exceptions.client_id_not_found import ClientIDNotFound
 from custom_exceptions.account_id_not_found import AccountIDNotFound
 from custom_exceptions.no_accounts import NoAccountsForClient
 from custom_exceptions.inadequate_funds import InadequateFunds
+from custom_exceptions.input_too_long import InputTooLong
 
 from api_package_layer.convert_to_dictionary import client_id_only
 from api_package_layer.convert_to_dictionary import account_id_only
@@ -39,6 +40,11 @@ def api_create_new_client():
         result_json = jsonify(result_dictionary)
         return result_json, 200
     except InvalidDataType as exception:
+        message = {
+            "message": str(exception)
+        }
+        return jsonify(message), 400
+    except InputTooLong as exception:
         message = {
             "message": str(exception)
         }
