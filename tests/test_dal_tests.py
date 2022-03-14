@@ -168,7 +168,7 @@ def test_close_individual_account():
 #Attempt to close an account that has funds in it.
 def test_close_nonexistant_account():
     try:
-        account_closed = account_test_data_imp.delete_account("at7", "at75")
+        account_closed = account_test_data_imp.delete_account("sv2", "sv2123")
         assert False
     except AccountIDNotFound as exception:
         assert str(exception) == "There are no accounts associated with that ID."
@@ -200,4 +200,4 @@ def test_remove_nonexistant_client():
         never_existed = client_test_data_imp.delete_client("i was never part of this to begin with")
         assert False
     except ClientIDNotFound as exception:
-        assert str(exception) == "Client ID does not exist"
+        assert str(exception) == "Client ID does not exist."

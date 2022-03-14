@@ -133,30 +133,28 @@ class AccountDataImplementation(AccountInterface):
         clients_in_db = cursor_get_clients.fetchone()
         try:
             if len(clients_in_db) > 0:
-                sql_get_accounts_query = "select account_id from accounts where client_id = %s"
+                sql_get_accounts_query = "select * from accounts where client_id = %s"
                 cursor_get_accounts = connection.cursor()
                 cursor_get_accounts.execute(sql_get_accounts_query, [client_id])
                 accounts_for_client = cursor_get_accounts.fetchall()
                 try:
                     if len(accounts_for_client) > 0:
                         for i in range(len(accounts_for_client)):
-                            if accounts_for_client[i][0] == account_id:
-                                sql_balance_check_query = "select account_balance from accounts where account_id = %s"
-                                cursor_check = connection.cursor()
-                                cursor_check.execute(sql_balance_check_query, [account_id])
-                                balance_info = cursor_check.fetchone()[0]
-                                if balance_info == 0:
+                            if accounts_for_client[i][1] == account_id:
+                                if accounts_for_client[i][2] <= 0:
                                     sql_delete_query = "delete from accounts where account_id = %s"
                                     delete_cursor = connection.cursor()
                                     delete_cursor.execute(sql_delete_query, [account_id])
                                     connection.commit()
                                     if delete_cursor.rowcount > 0:
                                         return True
-                                raise FundsStillExist("There are still funds in that account. Please withdraw or transfer the balance before attempting to close the account.")
+                                raise FundsStillExist(
+                                    "There are still funds in that account. Please withdraw or transfer the balance before attempting to close the account.")
                         raise AccountIDNotFound("There are no accounts associated with that ID.")
+                    raise NoAccounts(
+                        "There are no accounts associated with that client.")  # this might be redundant due to the try/except block
+                except TypeError:
                     raise NoAccounts("There are no accounts associated with that client.")
-                except TypeError: #this error is not being caught despite being in a try:except block : )
-                    raise NoAccounts("There are no accounts associated with that client.")
-            raise ClientIDNotFound("Client ID does not exist.")
+            raise ClientIDNotFound("Client ID does not exist.")  # this might be redundant due to the try/except block
         except TypeError:
             raise ClientIDNotFound("Client ID does not exist.")
