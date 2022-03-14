@@ -12,8 +12,7 @@ class ClientServiceImplementation(ClientInterface):
     def view_all_client_accounts(self, client_id: str) -> ClientData:
         pass
 
-    def transfer_between_accounts(self, client_id: str, account_from_id: str, account_to_id: str,
-                                  transfer_amount: float) -> ClientData:
+    def transfer_between_accounts(self, client_id: str, account_from_id: str, account_to_id: str, transfer_amount: float) -> ClientData:
         pass
 
     def delete_client(self, client_id: str) -> bool:
