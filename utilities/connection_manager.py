@@ -1,4 +1,5 @@
 from psycopg import OperationalError, connect
+from utilities.custom_exceptions import DatabaseConnection
 import os
 
 def create_connection():
@@ -12,6 +13,6 @@ def create_connection():
         )
         return conn
     except OperationalError as exception:
-        print(exception)
+        raise DatabaseConnection("Cannot connect to database.")
 
 connection = create_connection()

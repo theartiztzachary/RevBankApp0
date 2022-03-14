@@ -1,7 +1,11 @@
+from unittest.mock import patch
+from unittest import mock
+
+import utilities.connection_manager
 from data_access_layer.client_data_implementation import ClientDataImplementation
 from data_access_layer.account_data_implementation import AccountDataImplementation
 
-from utilities.custom_exceptions import ClientIDNotFound, AccountIDNotFound, NoAccounts, InadequateFunds, FundsStillExist, AccountsStillExist
+from utilities.custom_exceptions import ClientIDNotFound, AccountIDNotFound, NoAccounts, InadequateFunds, FundsStillExist, AccountsStillExist, DatabaseConnection
 
 client_test_data_imp = ClientDataImplementation()
 account_test_data_imp = AccountDataImplementation()
@@ -16,6 +20,17 @@ account_test_data_imp.account_id_value = 5 #This brings the account_id_value up 
 def test_create_new_client():
     added_client = client_test_data_imp.create_new_client("Estaire", "VonTelan")
     assert added_client.client_id == "ev7"
+
+#Attempt to create a new client but the database cannot connect. - This test does not need to be repeated as it is testing the connection variable,
+#not the actual create_client itself, so repeating the test would be testing the same thing.
+@patch("utilities.connection_manager.connection.cursor")
+def test_bad_connection_new_client(mock):
+    try:
+        mock.side_effect = DatabaseConnection("Cannot connect to database.")
+        bad_client = client_test_data_imp.create_new_client("nope", "nope")
+        assert False
+    except DatabaseConnection as exception:
+        assert str(exception) == "Cannot connect to database."
 
 #Create a new account and add to database.
 def test_create_new_account():

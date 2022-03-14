@@ -11,4 +11,4 @@ account_test_data_imp = AccountDataImplementation()
 account_test_service_imp = AccountServiceImplementation(account_test_data_imp)
 
 ## These tests check if the USER input is of a valid type to use in queries. Theoretically, 95% of these should be caught by the API
-# layer, as it would be crafting 
+# layer, as it would be crafting
