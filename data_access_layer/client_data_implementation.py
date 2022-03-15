@@ -4,6 +4,9 @@ from utilities.connection_manager import connection
 
 from utilities.custom_exceptions import ClientIDNotFound, NoAccounts, InadequateFunds, AccountIDNotFound, AccountsStillExist
 
+## A lot of this logic is bloated with extra checks. Once everything is baseline in place and working, will go back and try to reduce
+# the bloat if there is time.
+
 class ClientDataImplementation(ClientInterface):
     client_id_value = 1
 
@@ -42,6 +45,7 @@ class ClientDataImplementation(ClientInterface):
         except TypeError:
             raise ClientIDNotFound("Client ID does not exist.")
 
+    #See if there's a way to checkpoint this transaction so it doesn't do one and then the other, but both simultaneously.
     def transfer_between_accounts(self, client_id: str, account_from_id: str, account_to_id: str, transfer_amount: float) -> ClientData:
         sql_client_query = "select * from clients where client_id = %s"
         cursor_client = connection.cursor()

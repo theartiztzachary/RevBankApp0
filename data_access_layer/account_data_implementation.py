@@ -4,6 +4,9 @@ from utilities.connection_manager import connection
 
 from utilities.custom_exceptions import ClientIDNotFound, AccountIDNotFound, NoAccounts, InadequateFunds, FundsStillExist
 
+## A lot of this logic is bloated with extra checks. Once everything is baseline in place and working, will go back and try to reduce
+# the bloat if there is time.
+
 class AccountDataImplementation(AccountInterface):
     account_id_value = 1
 

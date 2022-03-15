@@ -6,3 +6,12 @@ class AccountData:
 
     def __str__(self):
         return f"Client: {self.client_id}\nAccount ID: {self.account_id}\nCurrent Balance: {self.account_balance}"
+
+    def account_to_dictionary(self) -> dict:
+        dictionary = {
+            "clientID": self.client_id,
+            "accountID": self.account_id,
+            "accountBalance": self.account_balance
+        }
+
+        return dictionary

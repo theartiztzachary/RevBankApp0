@@ -7,3 +7,15 @@ class ClientData:
 
     def __str__(self):
         return f"{self.last_name}, {self.first_name}\nClient ID: {self.client_id}"
+
+    def client_to_dictionary(self) -> dict:
+        dictionary = {
+            "firstName": self.first_name,
+            "lastName": self.last_name,
+            "clientID": self.client_id
+        }
+
+        for key in self.client_accounts.keys():
+            dictionary[key] = self.client_accounts[key]
+
+        return dictionary
