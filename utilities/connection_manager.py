@@ -1,5 +1,4 @@
 from psycopg import OperationalError, connect
-from utilities.custom_exceptions import DatabaseConnection
 import os
 
 def create_connection():

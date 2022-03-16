@@ -1,0 +1,30 @@
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:root:Greeting message sent.
+INFO:werkzeug:127.0.0.1 - - [16/Mar/2022 12:35:06] "GET /greeting HTTP/1.1" 200 -
+INFO:root:Aesteri Tylus became a client with Client ID at1.
+INFO:werkzeug:127.0.0.1 - - [16/Mar/2022 12:35:13] "POST /clients HTTP/1.1" 200 -
+INFO:root:Client at1 created a new account with Account ID at11.
+INFO:werkzeug:127.0.0.1 - - [16/Mar/2022 12:35:21] "POST /clients/at1/account HTTP/1.1" 200 -
+INFO:root:Client at1 created a new account with Account ID at12.
+INFO:werkzeug:127.0.0.1 - - [16/Mar/2022 12:35:49] "POST /clients/at1/account HTTP/1.1" 200 -
+INFO:root:at1 viewed account at11.
+INFO:werkzeug:127.0.0.1 - - [16/Mar/2022 12:36:14] "GET /clients/at1/account/at11 HTTP/1.1" 200 -
+INFO:root:at1 viewed all of their accounts.
+INFO:werkzeug:127.0.0.1 - - [16/Mar/2022 12:36:58] "GET /client/at1/accounts HTTP/1.1" 200 -
+INFO:root:at1 transferred 10 from at11 to at12.
+INFO:werkzeug:127.0.0.1 - - [16/Mar/2022 12:37:13] "POST /client/at1/transfer HTTP/1.1" 200 -
+INFO:root:at1 deposited 40 into at11.
+INFO:werkzeug:127.0.0.1 - - [16/Mar/2022 12:38:27] "POST /client/at1/account/at11/deposit HTTP/1.1" 200 -
+INFO:root:at1 withdrew 130 from at11.
+INFO:werkzeug:127.0.0.1 - - [16/Mar/2022 12:38:41] "POST /client/at1/account/at11/withdraw HTTP/1.1" 200 -
+INFO:root:at1 withdrew 160 from at12.
+INFO:werkzeug:127.0.0.1 - - [16/Mar/2022 12:38:51] "POST /client/at1/account/at12/withdraw HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Mar/2022 12:39:27] "[33mDELETE /client/at1/account/at11/delete HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [16/Mar/2022 12:39:36] "[33mDELETE /client/at1/account/at11 HTTP/1.1[0m" 404 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:root:at1 deleted account at11.
+INFO:werkzeug:127.0.0.1 - - [16/Mar/2022 12:39:53] "DELETE /client/at1/account/at11 HTTP/1.1" 200 -
+INFO:root:at1 deleted account at12.
+INFO:werkzeug:127.0.0.1 - - [16/Mar/2022 12:40:09] "DELETE /client/at1/account/at12 HTTP/1.1" 200 -
+INFO:root:at1 removed from the service.
+INFO:werkzeug:127.0.0.1 - - [16/Mar/2022 12:40:31] "DELETE /client/at1 HTTP/1.1" 200 -

@@ -24,7 +24,7 @@ def hello_world():
     return "Hello world!"
 
 ## Create a new client.
-@app.route("/newclient", methods=["POST"])
+@app.route("/clients", methods=["POST"])
 def api_create_new_client():
     try:
         received_json: dict = request.get_json()
@@ -45,7 +45,7 @@ def api_create_new_client():
         return jsonify(message), 400
 
 ## Create a new account with a client.
-@app.route("/<client_id>/newaccount", methods=["POST"])
+@app.route("/clients/<client_id>/account", methods=["POST"])
 def api_create_new_account(client_id: str):
     try:
         received_json: dict = request.get_json()
@@ -69,7 +69,7 @@ def api_create_new_account(client_id: str):
         return jsonify(message), 400
 
 ## View account information.
-@app.route("/<client_id>/<account_id>/view", methods=["GET"])
+@app.route("/clients/<client_id>/account/<account_id>", methods=["GET"])
 def api_view_account_information(client_id: str, account_id: str):
     try:
         result = app_account_service_imp.view_account_information(client_id, account_id)
@@ -95,7 +95,7 @@ def api_view_account_information(client_id: str, account_id: str):
         return jsonify(message), 400
 
 ## View all of a client's accounts.
-@app.route("/<client_id>/viewall", methods=["GET"])
+@app.route("/client/<client_id>/accounts", methods=["GET"])
 def api_view_all_client_accounts(client_id: str):
     try:
         result = app_client_service_imp.view_all_client_accounts(client_id)
@@ -121,7 +121,7 @@ def api_view_all_client_accounts(client_id: str):
         return jsonify(message), 400
 
 ## Withdraw from an account.
-@app.route("/<client_id>/<account_id>/withdraw", methods=["POST"])
+@app.route("/client/<client_id>/account/<account_id>/withdraw", methods=["POST"])
 def api_withdraw_from_account(client_id: str, account_id: str):
     try:
         received_json: dict = request.get_json()
@@ -153,7 +153,7 @@ def api_withdraw_from_account(client_id: str, account_id: str):
         return jsonify(message), 400
 
 ## Deposit into an account.
-@app.route("/<client_id>/<account_id>/deposit", methods=["POST"])
+@app.route("/client/<client_id>/account/<account_id>/deposit", methods=["POST"])
 def api_deposit_into_account(client_id: str, account_id: str):
     try:
         received_json: dict = request.get_json()
@@ -181,7 +181,7 @@ def api_deposit_into_account(client_id: str, account_id: str):
         return jsonify(message), 400
 
 ## Transfer money between two accounts.
-@app.route("/<client_id>/transfer", methods=["POST"])
+@app.route("/client/<client_id>/transfer", methods=["POST"])
 def api_transfer_between_accounts(client_id: str):
     try:
         received_json = request.get_json()
@@ -219,7 +219,7 @@ def api_transfer_between_accounts(client_id: str):
         return jsonify(message), 400
 
 ## Delete an account.
-@app.route("/<client_id>/<account_id>/deleteaccount", methods=["POST"])
+@app.route("/client/<client_id>/account/<account_id>", methods=["DELETE"])
 def api_delete_account(client_id: str, account_id: str):
     try:
         result = app_account_service_imp.delete_account(client_id, account_id)
@@ -249,7 +249,7 @@ def api_delete_account(client_id: str, account_id: str):
         return jsonify(message), 400
 
 ## Delete a client.
-@app.route("/<client_id>/deleteclient", methods=["POST"])
+@app.route("/client/<client_id>", methods=["DELETE"])
 def api_delete_client(client_id: str):
     try:
         result = app_client_service_imp.delete_client(client_id)
