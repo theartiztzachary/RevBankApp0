@@ -21,17 +21,6 @@ def test_create_new_client():
     added_client = client_test_data_imp.create_new_client("Estaire", "VonTelan")
     assert added_client.client_id == "ev7"
 
-#Attempt to create a new client but the database cannot connect. - This test does not need to be repeated as it is testing the connection variable,
-#not the actual create_client itself, so repeating the test would be testing the same thing.
-@patch("utilities.connection_manager.connection.cursor")
-def test_bad_connection_new_client(mock):
-    try:
-        mock.side_effect = DatabaseConnection("Cannot connect to database.")
-        bad_client = client_test_data_imp.create_new_client("nope", "nope")
-        assert False
-    except DatabaseConnection as exception:
-        assert str(exception) == "Cannot connect to database."
-
 #Create a new account and add to database.
 def test_create_new_account():
     added_account = account_test_data_imp.create_new_account("mn1", 200)

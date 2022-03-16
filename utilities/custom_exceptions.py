@@ -21,6 +21,3 @@ class InvalidDataType(Exception):
 
 class NoAccounts(Exception):
     pass
-
-class DatabaseConnection(Exception):
-    pass

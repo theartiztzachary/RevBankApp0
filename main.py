@@ -6,7 +6,7 @@ from service_layer.client_service_implementation import ClientServiceImplementat
 from data_access_layer.account_data_implementation import AccountDataImplementation
 from service_layer.account_service_implementation import AccountServiceImplementation
 
-from utilities.custom_exceptions import InvalidDataType, DatabaseConnection, ClientIDNotFound, AccountIDNotFound, NoAccounts, InadequateFunds, FundsStillExist, AccountsStillExist
+from utilities.custom_exceptions import InvalidDataType, ClientIDNotFound, AccountIDNotFound, NoAccounts, InadequateFunds, FundsStillExist, AccountsStillExist
 
 app: Flask = Flask(__name__)
 
@@ -39,10 +39,6 @@ def api_create_new_client():
         message = {"message": str(exception)}
         logging.error(str(exception))
         return jsonify(message), 400
-    except DatabaseConnection as exception:
-        message = {"message": str(exception)}
-        logging.error(str(exception))
-        return jsonify(message), 400
     except Exception as exception:
         message = {"message": "Something unknown went wrong. Please contact administration."}
         logging.error(str(exception))
@@ -67,10 +63,6 @@ def api_create_new_account(client_id: str):
         message = {"message": str(exception)}
         logging.error(str(exception))
         return jsonify(message)
-    except DatabaseConnection as exception:
-        message = {"message": str(exception)}
-        logging.error(str(exception))
-        return jsonify(message), 400
     except Exception as exception:
         message = {"message": "Something unknown went wrong. Please contact administration."}
         logging.error(str(exception))
@@ -97,10 +89,6 @@ def api_view_account_information(client_id: str, account_id: str):
         message = {"message": str(exception)}
         logging.error(str(exception))
         return message, 400
-    except DatabaseConnection as exception:
-        message = {"message": str(exception)}
-        logging.error(str(exception))
-        return jsonify(message), 400
     except Exception as exception:
         message = {"message": "Something unknown went wrong. Please contact administration."}
         logging.error(str(exception))
@@ -124,10 +112,6 @@ def api_view_all_client_accounts(client_id: str):
         logging.error(str(exception))
         return jsonify(message), 400
     except ClientIDNotFound as exception:
-        message = {"message": str(exception)}
-        logging.error(str(exception))
-        return jsonify(message), 400
-    except ConnectionError as exception:
         message = {"message": str(exception)}
         logging.error(str(exception))
         return jsonify(message), 400
@@ -163,10 +147,6 @@ def api_withdraw_from_account(client_id: str, account_id: str):
         message = {"message": str(exception)}
         logging.error(str(exception))
         return jsonify(message), 400
-    except DatabaseConnection as exception:
-        message = {"message": str(exception)}
-        logging.error(str(exception))
-        return jsonify(message), 400
     except Exception as exception:
         message = {"message": "Something unknown went wrong. Please contact administration."}
         logging.error(str(exception))
@@ -192,10 +172,6 @@ def api_deposit_into_account(client_id: str, account_id: str):
         logging.error(str(exception))
         return jsonify(message), 400
     except ClientIDNotFound as exception:
-        message = {"message": str(exception)}
-        logging.error(str(exception))
-        return jsonify(message), 400
-    except DatabaseConnection as exception:
         message = {"message": str(exception)}
         logging.error(str(exception))
         return jsonify(message), 400
@@ -237,10 +213,6 @@ def api_transfer_between_accounts(client_id: str):
         message = {"message": str(exception)}
         logging.error(str(exception))
         return jsonify(message), 400
-    except DatabaseConnection as exception:
-        message = {"message": str(exception)}
-        logging.error(str(exception))
-        return jsonify(message), 400
     except Exception as exception:
         message = {"message": "Something unknown went wrong. Please contact administration."}
         logging.error(str(exception))
@@ -271,10 +243,6 @@ def api_delete_account(client_id: str, account_id: str):
         message = {"message": str(exception)}
         logging.error(str(exception))
         return jsonify(message), 400
-    except DatabaseConnection as exception:
-        message = {"message": str(exception)}
-        logging.error(str(exception))
-        return jsonify(message), 400
     except Exception as exception:
         message = {"message": "Something unknown went wrong. Please contact administration."}
         logging.error(str(exception))
@@ -298,10 +266,6 @@ def api_delete_client(client_id: str):
         logging.error(str(exception))
         return jsonify(message), 400
     except AccountsStillExist as exception:
-        message = {"message": str(exception)}
-        logging.error(str(exception))
-        return jsonify(message), 400
-    except DatabaseConnection as exception:
         message = {"message": str(exception)}
         logging.error(str(exception))
         return jsonify(message), 400
