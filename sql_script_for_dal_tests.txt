@@ -1,0 +1,35 @@
+The following is the script I run in DBeaver to set up my database for the data access layer tests.
+
+-----
+drop table if exists clients cascade; --These two lines are simply to ensure the test environment is built from the ground up so that
+drop table if exists accounts cascade; --the return results are what we expect for tests to continue.
+
+create table clients(
+	first_name varchar(20),
+	last_name varchar(20),
+	client_id varchar(20) primary key
+);
+
+create table accounts(
+	client_id varchar(20),
+	account_id varchar(20) primary key,
+	account_balance dec(15,2) check(account_balance >= 0),
+	constraint accounts_fk foreign key(client_id) references clients(client_id)
+);
+
+insert into clients values('Mekio', 'Nefta', 'mn1');
+
+insert into clients values('Salvador', 'Veluvaza', 'sv2');
+insert into accounts values('sv2', 'sv21', 50);
+insert into accounts values('sv2', 'sv22', 100);
+
+insert into clients values('Luken', 'VonTelan', 'lv3');
+
+insert into clients values('Zandel', 'Horris', 'zh4');
+insert into accounts values('zh4', 'zh43', 50);
+
+insert into clients values('Isaac', 'Daurcour', 'id5');
+
+insert into clients values('Hamel', 'Bergstrom', 'hb6');
+insert into accounts values('hb6', 'hb64', 0);
+-----

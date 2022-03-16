@@ -6,6 +6,9 @@ from utilities.custom_exceptions import ClientIDNotFound, NoAccounts, Inadequate
 
 ## A lot of this logic is bloated with extra checks. Once everything is baseline in place and working, will go back and try to reduce
 # the bloat if there is time.
+# Yeah this all needs to be rewritten / redistributed between the Data and Service layers :)
+
+#if records is not None...
 
 class ClientDataImplementation(ClientInterface):
     client_id_value = 1
@@ -46,8 +49,14 @@ class ClientDataImplementation(ClientInterface):
             raise ClientIDNotFound("Client ID does not exist.")
 
     #See if there's a way to checkpoint this transaction so it doesn't do one and then the other, but both simultaneously.
+    #TCL-
+        #statement 1; statement 2? NOPE
+        #check if it went through (rowcount) ???
+        #connection.rollback() - takes you back to when the cursor was created in python
+        #execute one, check the rowcount, then execute again, check, etc, rollback if nessicary
+        #you can execute multiple times with one cursor !!!
     def transfer_between_accounts(self, client_id: str, account_from_id: str, account_to_id: str, transfer_amount: float) -> ClientData:
-        sql_client_query = "select * from clients where client_id = %s"
+        sql_client_query = "select * from clients where client_id = %s;"
         cursor_client = connection.cursor()
         cursor_client.execute(sql_client_query, [client_id])
         client_info = cursor_client.fetchone()

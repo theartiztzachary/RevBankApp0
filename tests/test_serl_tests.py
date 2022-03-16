@@ -18,6 +18,8 @@ account_test_service_imp = AccountServiceImplementation(account_test_data_imp)
 
 #Every positive test needs to be mocked so it doesn't actually touch the data access layer.
 
+#Should there be tests for ensuring that the numbers inputted are positive, since our code only works with positive numbers?
+
 #Validate creating a new client with good data. We are checking to make sure valid data passes through correctly, so if we get the
 #MagicMock return value, it passed through correctly.
 def test_service_create_client():

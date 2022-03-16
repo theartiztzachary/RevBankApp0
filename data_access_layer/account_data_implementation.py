@@ -59,7 +59,7 @@ class AccountDataImplementation(AccountInterface):
             raise ClientIDNotFound("Client ID does not exist.")
 
     def withdraw_from_account(self, client_id: str, account_id: str, withdraw_amount: float) -> AccountData:
-        sql_get_clients_query = "select client_id from clients where client_id = %s"
+        sql_get_clients_query = "select client_id from clients where client_id = %s;"
         cursor_get_clients = connection.cursor()
         cursor_get_clients.execute(sql_get_clients_query, [client_id])
         clients_in_db = cursor_get_clients.fetchone()
@@ -130,7 +130,7 @@ class AccountDataImplementation(AccountInterface):
             raise ClientIDNotFound("Client ID does not exist.")
 
     def delete_account(self, client_id: str, account_id: str) -> bool:
-        sql_get_clients_query = "select client_id from clients where client_id = %s"
+        sql_get_clients_query = "select client_id from clients where client_id = %s;"
         cursor_get_clients = connection.cursor()
         cursor_get_clients.execute(sql_get_clients_query, [client_id])
         clients_in_db = cursor_get_clients.fetchone()
