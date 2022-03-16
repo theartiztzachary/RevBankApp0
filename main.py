@@ -5,7 +5,7 @@ from service_layer.client_service_implementation import ClientServiceImplementat
 from data_access_layer.account_data_implementation import AccountDataImplementation
 from service_layer.account_service_implementation import AccountServiceImplementation
 
-from utilities.custom_exceptions import InvalidDataType, DatabaseConnection, ClientIDNotFound, AccountIDNotFound, NoAccounts, InadequateFunds
+from utilities.custom_exceptions import InvalidDataType, DatabaseConnection, ClientIDNotFound, AccountIDNotFound, NoAccounts, InadequateFunds, FundsStillExist, AccountsStillExist
 
 app: Flask = Flask(__name__)
 
@@ -36,8 +36,10 @@ def api_create_new_client():
     except DatabaseConnection as exception:
         message = {"message": str(exception)}
         return jsonify(message), 400
-    except:
-        message = {"message": "Something unknown went wrong. Please contact administration."}
+    except Exception as exception:
+        message = {
+            "message": "Something unknown went wrong. Please contact administration.",
+            "errorCode:": str(exception)}
         return jsonify(message), 400
 
 ## Create a new account with a client.
@@ -58,8 +60,10 @@ def api_create_new_account(client_id: str):
     except DatabaseConnection as exception:
         message = {"message": str(exception)}
         return jsonify(message), 400
-    except:
-        message = {"message": "Something unknown went wrong. Please contact administration."}
+    except Exception as exception:
+        message = {
+            "message": "Something unknown went wrong. Please contact administration.",
+            "errorCode:": str(exception)}
         return jsonify(message), 400
 
 ## View account information.
@@ -82,12 +86,14 @@ def api_view_account_information(client_id: str, account_id: str):
     except DatabaseConnection as exception:
         message = {"message": str(exception)}
         return jsonify(message), 400
-    except:
-        message = {"message": "Something unknown went wrong. Please contact administration."}
+    except Exception as exception:
+        message = {
+            "message": "Something unknown went wrong. Please contact administration.",
+            "errorCode:": str(exception)}
         return jsonify(message), 400
 
 ## View all of a client's accounts.
-@app.route("/<client_id>/viewallaccounts", methods=["GET"])
+@app.route("/<client_id>/viewall", methods=["GET"])
 def api_view_all_client_accounts(client_id: str):
     try:
         result = app_client_service_imp.view_all_client_accounts(client_id)
@@ -106,12 +112,14 @@ def api_view_all_client_accounts(client_id: str):
     except ConnectionError as exception:
         message = {"message": str(exception)}
         return jsonify(message), 400
-    except:
-        message = {"message": "Something unknown went wrong. Please contact administration."}
+    except Exception as exception:
+        message = {
+            "message": "Something unknown went wrong. Please contact administration.",
+            "errorCode:": str(exception)}
         return jsonify(message), 400
 
 ## Withdraw from an account.
-@app.route("<client_id>/<account_id>/withdraw", methods=["POST"])
+@app.route("/<client_id>/<account_id>/withdraw", methods=["POST"])
 def api_withdraw_from_account(client_id: str, account_id: str):
     try:
         received_json: dict = request.get_json()
@@ -135,8 +143,11 @@ def api_withdraw_from_account(client_id: str, account_id: str):
     except DatabaseConnection as exception:
         message = {"message": str(exception)}
         return jsonify(message), 400
-    except:
-        message = {"message": "Something unknown went wrong. Please contact administration."}
+    except Exception as exception:
+        message = {
+            "message": "Something unknown went wrong. Please contact administration.",
+            "errorCode:": str(exception)}
+        return jsonify(message), 400
 
 ## Deposit into an account.
 @app.route("/<client_id>/<account_id>/deposit", methods=["POST"])
@@ -160,12 +171,14 @@ def api_deposit_into_account(client_id: str, account_id: str):
     except DatabaseConnection as exception:
         message = {"message": str(exception)}
         return jsonify(message), 400
-    except:
-        message = {"message": "Something unknown went wrong. Please contact administration."}
+    except Exception as exception:
+        message = {
+            "message": "Something unknown went wrong. Please contact administration.",
+            "errorCode:": str(exception)}
         return jsonify(message), 400
 
 ## Transfer money between two accounts.
-@app.route("<clientID>/transfer", methods=["POST"])
+@app.route("/<client_id>/transfer", methods=["POST"])
 def api_transfer_between_accounts(client_id: str):
     try:
         received_json = request.get_json()
@@ -188,21 +201,72 @@ def api_transfer_between_accounts(client_id: str):
     except ClientIDNotFound as exception:
         message = {"message": str(exception)}
         return jsonify(message), 400
+    except NoAccounts as exception:
+        message = {"message": str(exception)}
+        return jsonify(message), 400
     except DatabaseConnection as exception:
         message = {"message": str(exception)}
         return jsonify(message), 400
-    except:
-        message = {"message": "Something unknown went wrong. Please contact administration."}
+    except Exception as exception:
+        message = {
+            "message": "Something unknown went wrong. Please contact administration.",
+            "errorCode:": str(exception)}
+        return jsonify(message), 400
 
 ## Delete an account.
-@app.route("<client_id>/<account_id>/deleteaccount", methods=["POST"])
+@app.route("/<client_id>/<account_id>/deleteaccount", methods=["POST"])
 def api_delete_account(client_id: str, account_id: str):
-    pass
+    try:
+        result = app_account_service_imp.delete_account(client_id, account_id)
+        result_dictionary = {"message": result}
+        result_json = jsonify(result_dictionary)
+        return result_json, 200
+    except InvalidDataType as exception:
+        message = {"message": str(exception)}
+        return jsonify(message), 400
+    except AccountIDNotFound as exception:
+        message = {"message": str(exception)}
+        return jsonify(message), 400
+    except ClientIDNotFound as exception:
+        message = {"message": str(exception)}
+        return jsonify(message), 400
+    except FundsStillExist as exception:
+        message = {"message": str(exception)}
+        return jsonify(message), 400
+    except DatabaseConnection as exception:
+        message = {"message": str(exception)}
+        return jsonify(message), 400
+    except Exception as exception:
+        message = {
+            "message": "Something unknown went wrong. Please contact administration.",
+            "errorCode:": str(exception)}
+        return jsonify(message), 400
 
 ## Delete a client.
-@app.route("<client_id>/deleteclient", methods=["POST"])
+@app.route("/<client_id>/deleteclient", methods=["POST"])
 def api_delete_client(client_id: str):
-    pass
+    try:
+        result = app_client_service_imp.delete_client(client_id)
+        result_dictionary = {"message": result}
+        result_json = jsonify(result_dictionary)
+        return result_json, 200
+    except InvalidDataType as exception:
+        message = {"message": str(exception)}
+        return jsonify(message), 400
+    except ClientIDNotFound as exception:
+        message = {"message": str(exception)}
+        return jsonify(message), 400
+    except AccountsStillExist as exception:
+        message = {"message": str(exception)}
+        return jsonify(message), 400
+    except DatabaseConnection as exception:
+        message = {"message": str(exception)}
+        return jsonify(message), 400
+    except Exception as exception:
+        message = {
+            "message": "Something unknown went wrong. Please contact administration.",
+            "errorCode:": str(exception)}
+        return jsonify(message), 400
 
 ## Oh we runnin' boios.
 app.run()

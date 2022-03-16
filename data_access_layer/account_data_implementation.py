@@ -77,10 +77,10 @@ class AccountDataImplementation(AccountInterface):
                                 cursor_check = connection.cursor()
                                 cursor_check.execute(sql_balance_check_query, [account_id])
                                 balance_info = cursor_check.fetchone()[0]
-                                if balance_info - withdraw_amount >= 0:
+                                if float(balance_info) - withdraw_amount >= 0:
                                     sql_post_query = "update accounts set account_balance = %s where account_id = %s returning *"
                                     cursor_post = connection.cursor()
-                                    cursor_post.execute(sql_post_query, (balance_info - withdraw_amount, account_id))
+                                    cursor_post.execute(sql_post_query, (float(balance_info) - withdraw_amount, account_id))
                                     returned_info = cursor_post.fetchone()
                                     connection.commit()
                                     account_details = AccountData(*returned_info)
@@ -116,7 +116,7 @@ class AccountDataImplementation(AccountInterface):
                                 balance_info = cursor_check.fetchone()[0]
                                 sql_post_query = "update accounts set account_balance = %s where account_id = %s returning *"
                                 cursor_post = connection.cursor()
-                                cursor_post.execute(sql_post_query, (balance_info + deposit_amount, account_id))
+                                cursor_post.execute(sql_post_query, (float(balance_info) + deposit_amount, account_id))
                                 returned_info = cursor_post.fetchone()
                                 connection.commit()
                                 account_details = AccountData(*returned_info)

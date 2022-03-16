@@ -68,21 +68,21 @@ class ClientDataImplementation(ClientInterface):
                             if account_info[i][1] == account_from_id:
                                 from_account_balance = account_info[i][2]
                                 have_from_account = True
-                                if account_info[i][2] - transfer_amount < 0:
+                                if float(account_info[i][2]) - transfer_amount < 0:
                                     raise InadequateFunds("You do not have enough funds in the given account to complete the transaction.")
                             elif account_info[i][1] == account_to_id:
                                 to_account_balance = account_info[i][2]
                                 have_to_account = True
                         if have_from_account and have_to_account:
-                            if from_account_balance - transfer_amount > 0:
+                            if float(from_account_balance) - transfer_amount > 0:
                                 sql_transfer_query_from = "update accounts set account_balance = %s where account_id = %s returning account_balance"
                                 cursor_transfer_from = connection.cursor()
-                                cursor_transfer_from.execute(sql_transfer_query_from, (from_account_balance - transfer_amount, account_from_id))
+                                cursor_transfer_from.execute(sql_transfer_query_from, (float(from_account_balance) - transfer_amount, account_from_id))
                                 account_from_balance_end = cursor_transfer_from.fetchone()[0]
                                 connection.commit()
                                 sql_transfer_query_to = "update accounts set account_balance = %s where account_id = %s returning account_balance"
                                 cursor_transfer_to = connection.cursor()
-                                cursor_transfer_to.execute(sql_transfer_query_to, (to_account_balance + transfer_amount, account_to_id))
+                                cursor_transfer_to.execute(sql_transfer_query_to, (float(to_account_balance) + transfer_amount, account_to_id))
                                 account_to_balance_end = cursor_transfer_to.fetchone()[0]
                                 connection.commit()
                                 returning_client.client_accounts[account_from_id] = account_from_balance_end
